@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="admin">
+  <select id="login" resultType="int" parameterType="java.util.Map" >
+    SELECT count(*) FROM users
+    where id=#{parameter1}
+    and pw=#{parameter2}
+  </select>
+
+  <select id="idchk" resultType="int" parameterType="String" >
+    SELECT count(*) FROM users
+    where id=#{value}
+  </select>
+ 
+   <insert id="insertOne" parameterType="com.hb.pro.admin.model.AdminVo">
+  	INSERT INTO users VALUES ( #{id}, #{pw} )
+  </insert>
+ 
+	 <select id="selectAll" resultType="com.hb.pro.admin.model.CookVo">
+	    SELECT * FROM cook order by cook_num desc
+	  </select>
+ 
+   <insert id="insertCook" parameterType="java.util.Map">
+  	INSERT INTO cook VALUES (cook_sqc.nextval, #{title}, #{mat}, #{text}, #{path} )
+  </insert>
+  
+</mapper>
