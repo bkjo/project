@@ -24,6 +24,18 @@
 	    SELECT * FROM cook order by cook_num desc
 	  </select>
  
+ 	<select id="selectOne" parameterType="int" resultType="com.hb.pro.admin.model.CookVo">
+  		SELECT * FROM cook WHERE cook_num=#{value}
+ 	 </select>
+ 
+ 	<update id="updateOne" parameterType="com.hb.pro.admin.model.CookVo">
+  		update cook set title=#{title}, mat=#{mat}, text=#{text}, path=#{path} where cook_num=#{cook_num}
+  	</update>
+  	
+  	  <delete id="deleteOne" parameterType="int">
+  		DELETE FROM cook WHERE cook_num=#{value}
+ 	 </delete>
+  	
    <insert id="insertCook" parameterType="java.util.Map">
   	INSERT INTO cook VALUES (cook_sqc.nextval, #{title}, #{mat}, #{text}, #{path} )
   </insert>

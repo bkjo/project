@@ -1,35 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
 <head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+</script>
 </head>
+
 <body>
-<table>
-				<tr>
-					<th>사번</th>
-					<th>이름</th>
-					<th>날짜</th>
-					<th>금액</th>
-				</tr>
-				<c:forEach items="${alist }" var="bean">
-				<tr>
-					<td>
-						${bean.title }
-					</td>
-					<td>
-						${bean.mat }
-					</td>
-					<td>
-						${bean.text }
-					</td>
-					<td>
-						${bean.path }
-					</td>
-				</tr>
-				</c:forEach>
-				
-			</table>
+<form action="/pro/test.do" method="post">
+<button type="submit" id="btn">버튼</button>
+</form>
 </body>
+
 </html>

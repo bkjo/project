@@ -21,7 +21,7 @@
 		<constructor-arg ref="sqlSessionFactoryBean"/>
 	</bean>
 	
-	<bean id="adminDao" class="com.hb.pro.admin.model.AdminDaoImp">
+	<bean id="adminDao" class="com.hb.pro.admin.model.AdminDaoImpl">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 </beans>

@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 
-public class AdminDaoImp implements AdminDao {
+public class AdminDaoImpl implements AdminDao {
 	private SqlSession sqlSession;
 	
 	public void setSqlSession(SqlSession sqlSession) {
@@ -32,5 +32,17 @@ public class AdminDaoImp implements AdminDao {
 	@Override
 	public List selectAll() {
 		return sqlSession.selectList("admin.selectAll");
+	}
+	@Override
+	public CookVo selectOne(int cook_num) {
+		return sqlSession.selectOne("admin.selectOne", cook_num);
+	}
+	@Override
+	public void updateOne(CookVo bean) {
+		sqlSession.update("admin.updateOne", bean);
+	}
+	@Override
+	public void deleteOne(int cook_num) {
+		sqlSession.delete("admin.deleteOne", cook_num);
 	}
 }

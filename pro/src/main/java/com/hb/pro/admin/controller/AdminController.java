@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -78,11 +80,11 @@ public class AdminController {
 			return "redirect:/";
 		}
 	
-	@RequestMapping(value="/cooklist.do",method=RequestMethod.GET)
+	/*@RequestMapping(value="/cooklist.do",method=RequestMethod.GET)
 	public String guestList(Model model) {
 		model.addAttribute("alist", adminDao.selectAll());
 		return "admin/main";
-	}
+	}*/
 	
 	
 	@RequestMapping(value="/cookinsert.do",method=RequestMethod.POST)
@@ -112,7 +114,7 @@ public class AdminController {
 		 } catch(Exception e) {
 			 e.printStackTrace();
 		 }
-		 String path = "http:///localhost:8080/pro/resources/img/"+filename1;
+		 String path = "http:///203.236.209.195:8080/pro/resources/img/"+filename1;
 		 mat = mat.replace("\r\n","<br>");
 		 text = text.replace("\r\n","<br>");
 		  Map<String, String> map = new HashMap();
@@ -124,7 +126,82 @@ public class AdminController {
 			adminDao.insertCook(map);
 			return "redirect:/";
 		}
-
-
+	
+	@RequestMapping(value="/cookOne.do/{cook_num}", method=RequestMethod.GET)
+	public String cookOne(Model model,@PathVariable("cook_num") int cook_num,CookVo bean) {
+		model.addAttribute("alist", adminDao.selectAll());
+		model.addAttribute("bean", adminDao.selectOne(cook_num));
+		return "admin/list";
+	}
+	
+	@RequestMapping(value="/cookmodify.do/{cook_num}",method=RequestMethod.POST)
+	public String cookModify(CookVo bean,@PathVariable("cook_num") int cook_num,HttpServletRequest request,HttpServletResponse response,Model model) throws Exception{
+		 request.setCharacterEncoding("UTF-8");
+		 
+		 String title="";
+		 String mat ="";
+		 String text="";
+		 
+		 String realFolder = "";
+		 String filename1 = "";
+		 int maxSize = 1024*1024*5;
+		 String encType = "utf-8";
+		 String savefile = "/resources/img";
+		 ServletContext scontext = request.getSession().getServletContext();
+		 realFolder = scontext.getRealPath(savefile);
+		 
+		  try{
+		  MultipartRequest multi=new MultipartRequest(request, realFolder, maxSize, encType, new DefaultFileRenamePolicy());
+		  Enumeration files = multi.getFileNames();
+		     String file1 = (String)files.nextElement();
+		     filename1 = multi.getFilesystemName(file1);
+		     title = multi.getParameter("modifytitle");
+		     mat = multi.getParameter("modifymat");
+		     text = multi.getParameter("modifytext");
+		 } catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 String path = "http:///203.236.209.195:8080/pro/resources/img/"+filename1;
+		 mat = mat.replace("\r\n","<br>");
+		 text = text.replace("\r\n","<br>");
+		
+			bean.setCook_num(cook_num);
+			bean.setTitle(title);
+			bean.setMat(mat);
+			bean.setText(text);
+			bean.setPath(path);
+			
+			adminDao.updateOne(bean);
+			return "redirect:/cookOne.do/"+cook_num;
+			//return "admin/list";
+		}
+	@RequestMapping(value="/cookDel.do/{cook_num}",method=RequestMethod.DELETE)
+		public String guestDelete(@PathVariable("cook_num") int cook_num,HttpServletRequest request){
+		
+		String path = request.getParameter("str");
+		
+		adminDao.deleteOne(cook_num);
+		path = path.replace("http:///203.236.209.195:8080","C:/sts/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps");
+		System.out.println(path);
+		
+		File file = new File(path);
+				if(file.exists() == true){
+				file.delete();
+		}
+		return "redirect:/";
+	}
+	
+	/*@RequestMapping(value="/test.do",method=RequestMethod.POST)
+	public String test() {
+			String path = "C:/sts/test.txt";
+			System.out.println(path);
+		
+			File file = new File(path);
+			if(file.exists() == true){
+			file.delete();
+		}
+			return "redirect:/";
+	}*/
+	
 	
 }

@@ -1,6 +1,7 @@
 package com.hb.pro.admin.model;
 
 public class CookVo {
+	int cook_num;
 	String title;
 	String mat;
 	String text;
@@ -8,6 +9,14 @@ public class CookVo {
 	
 	public CookVo() {
 
+	}
+
+	public int getCook_num() {
+		return cook_num;
+	}
+
+	public void setCook_num(int cook_num) {
+		this.cook_num = cook_num;
 	}
 
 	public String getTitle() {
@@ -42,18 +51,20 @@ public class CookVo {
 		this.path = path;
 	}
 
-	public CookVo(String title, String mat, String text, String path) {
+	@Override
+	public String toString() {
+		return "CookVo [cook_num=" + cook_num + ", title=" + title + ", mat="
+				+ mat + ", text=" + text + ", path=" + path + "]";
+	}
+
+	public CookVo(int cook_num, String title, String mat, String text,
+			String path) {
 		super();
+		this.cook_num = cook_num;
 		this.title = title;
 		this.mat = mat;
 		this.text = text;
 		this.path = path;
-	}
-
-	@Override
-	public String toString() {
-		return "CookVo [title=" + title + ", mat=" + mat + ", text=" + text
-				+ ", path=" + path + "]";
 	}
 
 	@Override

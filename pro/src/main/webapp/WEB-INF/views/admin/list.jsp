@@ -51,7 +51,6 @@
 	.cookhr{
 		width: 100px;
 	}
-	
 	</style>
 	
 </head>
@@ -65,7 +64,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll"  href="/pro">냉짝</a>
+                <a class="navbar-brand page-scroll" href="/pro">냉짝</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -239,54 +238,86 @@
 
 
     <section id="list">
-	<!-- 요리레시피 리스트 -->
-		<div class="row" id="cooklist">
+	<!-- 요리레시피 상세보기 -->
+		<div class="row" id="cookdetail">
 			<div class="col-xs-12">
-			<div class="alert alert-warning" role="alert"><h3>리스트</h3></div>
-				<c:forEach items="${alist }" var="bean">
-					<div class="media">
-						<div class="media-left media-top">
-						  <a href="/pro/cookOne.do/${bean.cook_num}"><img class="media-object" src="${bean.path }" width="96px" height="96px" alt="${bean.title }"></a>
-						</div>
-						<div class="media-body">
-						  <h3 class="media-heading">${bean.title }</h3>
-						<h5>
-						${bean.mat }
-						</h5>
-						<button class="more">+더보기</button>
-						<p class="cookt">${bean.text }</p>
-						<button class="fold">-접기</button>
-						  </div>
-					</div>
-					<hr/>
-			  </c:forEach>
-			 
-			 
-			<!--   <nav aria-label="Page navigation">
-			  <ul class="pagination">
-			    <li>
-			      <a href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li><a href="#">1</a></li>
-			    <li><a href="#">2</a></li>
-			    <li><a href="#">3</a></li>
-			    <li><a href="#">4</a></li>
-			    <li><a href="#">5</a></li>
-			    <li>
-			      <a href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			  </ul>
-			</nav> -->
-			
-			 <p id="top"><a href="#">top</a></p>
-			
-		</div>
+			 <div class="alert alert-warning" role="alert"><h1>상세보기</h1></div>
+			<table class="table text-center">
+			<tr>
+				<td colspan="2"><img src="${bean.path}" width="128px" height="128px"></td>
+		
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td>${bean.title }</td>
+			</tr>
+			<tr>
+				<th>재료</th>
+				<td>${bean.mat }</td>
+			</tr>
+			<tr>
+				<th>방법</th>
+				<td>${bean.text }</td>
+			</tr>
+				<%
+                	if(session.getAttribute("id")!=null){
+                %>
+			<tr>
+				<td colspan="2">
+					<form action="/pro/cookDel.do/${bean.cook_num }" method="post">
+					<button type="button" class="btn btn-primary" id="modify">수정</button>
+						<input type="hidden" name="_method" value="delete" />
+						<input type="hidden" name="str" id="str" value="${bean.path }" />
+						<button type="submit" class="btn btn-danger">삭제</button>
+					</form>
+				</td>
+			</tr>
+				<%} %>
+			</table>
+			</div>
 		</div>
 		
+		<!--  요리레시피 수정 -->
+		<div class="row" id="cookmodify">
+			<div class="col-xs-12">
+			<div class="alert alert-warning" role="alert"><h3>수정</h3></div>
+				<form id="cookmdy" class="form-horizontal" action="/pro/cookmodify.do/${bean.cook_num }" method="post" enctype="multipart/form-data">
+				  <div class="form-group">
+				    <input type="hidden" name="_method" value="put"/>
+				    <label for="modifytitle" class="col-sm-2 control-label">요리제목</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="modifytitle" id="modifytitle" placeholder="요리제목을 입력하세요" value="${bean.title }">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="cookmat" class="col-sm-2 control-label">요리재료</label>
+				    <div class="col-sm-10">
+				      <textarea class="form-control cookmat" name="modifymat" id="modifymat" rows="5" placeholder="요리재료를 입력하세요" >${bean.mat }</textarea>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="cooktext" class="col-sm-2 control-label">요리방법</label>
+				    <div class="col-sm-10">
+				      <textarea class="form-control cookmat" name="modifytext" id="modifytext" rows="15" placeholder="요리방법을 입력하세요">${bean.text }</textarea>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="cookimg" class="col-sm-2 control-label">요리이미지</label>
+				    <div class="col-sm-10">
+				      <input type="file" class="form-control" name="filename2" id="filename2" placeholder="이미지 파일을 선택하세요"/>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <div class="btn-group" role="group">
+				      <button type="submit" class="btn btn-default">수정</button>
+				      <button type="reset" class="btn btn-default">취소</button>
+				      </div>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
 		
 		<!-- 요리레시피 등록 -->
 		<div class="row" id="cookadd">
@@ -328,39 +359,6 @@
 				</form>
 			</div>
 		</div>
-<%-- 		<!-- 요리레시피 상세보기 -->
-		<div class="row cookdetail">
-			<div class="col-xs-12">
-				<div class="page-header">
-				  <h1>상세페이지 <small>${bean.cook_num }님의 정보</small></h1>
-				</div>
-			</div>
-		</div>
-		<div class="row cookdetail">
-			<div class="col-xs-12">
-			<table class="table">
-			<tr>
-				<td>사번</td>
-				<td>${bean.title }</td>
-			</tr>
-			<tr>
-				<td>이름</td>
-				<td>${bean.mat }</td>
-			</tr>
-			<tr>
-				<td>날짜</td>
-				<td>${bean.text }</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button type="button" class="btn btn-primary btnEdit">수정</button>
-					<a class="btn btn-danger btnDel" href="#" role="button">삭제</a>
-				</td>
-			</tr>
-			</table>
-			</div>
-		</div>
-		--%>
     </section> 
 
     
@@ -391,6 +389,7 @@
                 </div>
             </div>
         </div>
+        
     </section>
 
     <!-- jQuery -->
@@ -406,13 +405,11 @@
 
     <!-- Theme JavaScript -->
     <script src="/pro/resources/js/creative.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
 	<script type="text/javascript">
 $(document).ready(function(){
-	
-	$('.cookt').hide();
 	$('#cookadd').hide();
-	$('.fold').hide();
+	$('#cookmodify').hide();
 	
 	$('#idChk').on('click',function(){
 		  $.ajax({
@@ -490,32 +487,52 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('.more').on('click',function(){
-			 $(this).css('display',"none");//more버튼 숨기기
-			 var index = $( ".more" ).index( this );
-			 var cookts = $(".cookt").eq(index);
-			 $('.fold').eq(index).show();
-			 cookts.show();
+	$('#cookmdy').on('submit',function(){
+		if ($("#modifytitle").val() == "") {
+		    alert("요리제목을 꼭 입력하세요!");
+		    $("#modifytitle").focus();
+		    return false;
+		}else if($("#modifymat").val() == ""){
+			alert("요리재료를 꼭 입력하세요!");
+			return false;
+			$("#modifymat").focus();
+		}else if($("#modifytext").val() == ""){
+			alert("요리방법을 꼭 입력하세요!");
+			return false;
+			$("#modifytext").focus();
+		}else if($("#filename2").val() == ""){
+			alert("요리이미지를 꼭 업로드하세요!");
+			return false;
+			$("#filename2").focus();
+		}else{
+			alert("정상적으로 수정 완료");
+		}
 	});
 	
-	$('.fold').on('click',function(){
-		 $(this).css('display',"none");//more버튼 숨기기
-		 var index = $( ".fold" ).index( this );
-		 var cookts = $(".cookt").eq(index);
-		 $('.more').eq(index).show();
-		 cookts.hide();
-	});
 	
 	$('#clist').on('click',function(){
 		$('#cookadd').hide();
-		$('#cooklist').show();
+		$('#cookmodify').hide();
+		$('#cookdetail').show();
+	});
+	$('#modify').on('click',function(){
+		$('#cookadd').hide();
+		$('#cookdetail').hide();
+		$('#cookmodify').show();
+		
+		var dbMat = $('#modifymat').val();
+		var dbTxt = $('#modifytext').val();
+		dbMat = dbMat.replace(/<br>/g, '\n');
+		dbTxt = dbTxt.replace(/<br>/g, '\n');
+		$('#modifymat').text(dbMat);
+		$('#modifytext').text(dbTxt);
+		
 	});
 	$('#cadd').on('click',function(){
-		$('#cooklist').hide();
+		$('#cookdetail').hide();
+		$('#cookmodify').hide();
 		$('#cookadd').show();
 	});
-		
-	
 	
 	
 });
