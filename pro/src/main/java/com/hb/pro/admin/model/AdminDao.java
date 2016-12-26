@@ -16,4 +16,6 @@ public interface AdminDao {
 	CookVo selectOne(int cook_num);
 	void updateOne(CookVo bean);
 	void deleteOne(int cook_num);
+	List searchAll();
+	List searchTitle(String searchValue);
 }

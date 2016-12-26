@@ -45,4 +45,12 @@ public class AdminDaoImpl implements AdminDao {
 	public void deleteOne(int cook_num) {
 		sqlSession.delete("admin.deleteOne", cook_num);
 	}
+	@Override
+	public List searchAll() {
+		return sqlSession.selectList("admin.searchAll");
+	}
+	@Override
+	public List searchTitle(String title) {
+		return sqlSession.selectList("admin.searchTitle",title);
+	}
 }

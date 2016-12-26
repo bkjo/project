@@ -40,4 +40,12 @@
   	INSERT INTO cook VALUES (cook_sqc.nextval, #{title}, #{mat}, #{text}, #{path} )
   </insert>
   
+   <select id="searchAll" resultType="com.hb.pro.admin.model.CookVo">
+	    SELECT * FROM cook order by cook_num desc
+	  </select>
+
+   <select id="searchTitle" resultType="com.hb.pro.admin.model.CookVo" parameterType="String">
+	    SELECT * FROM cook where title like '%'|| #{value} || '%'
+	  </select>
+  
 </mapper>

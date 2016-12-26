@@ -1,5 +1,8 @@
 package com.hb.pro;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hb.pro.admin.model.AdminDao;
+import com.hb.pro.admin.model.CookVo;
 
 /**
  * Handles requests for the application home page.
@@ -30,6 +34,9 @@ public class HomeController {
 		if(session.getAttribute("str")!=null){
 			session.removeAttribute("str");
 		}
+	
+		
+		
 		model.addAttribute("alist", adminDao.selectAll());
 			//return "admin/main";
 		return "admin/main";

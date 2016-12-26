@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -80,11 +82,11 @@ public class AdminController {
 			return "redirect:/";
 		}
 	
-	/*@RequestMapping(value="/cooklist.do",method=RequestMethod.GET)
+	@RequestMapping(value="/cooklist.do",method=RequestMethod.GET)
 	public String guestList(Model model) {
 		model.addAttribute("alist", adminDao.selectAll());
-		return "admin/main";
-	}*/
+		return "redirect:/";
+	}
 	
 	
 	@RequestMapping(value="/cookinsert.do",method=RequestMethod.POST)
@@ -191,17 +193,94 @@ public class AdminController {
 		return "redirect:/";
 	}
 	
-	/*@RequestMapping(value="/test.do",method=RequestMethod.POST)
-	public String test() {
-			String path = "C:/sts/test.txt";
-			System.out.println(path);
+	
+	@RequestMapping(value="/search.do",method=RequestMethod.POST)
+	public void titleSearch(HttpServletRequest request,HttpServletResponse response,Model model) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
 		
-			File file = new File(path);
-			if(file.exists() == true){
-			file.delete();
+		
+		List<CookVo> list = adminDao.searchAll();
+		ArrayList<String> resultlist = new ArrayList<String>();
+		 for(CookVo bean : list){
+			 resultlist.add(bean.getTitle());
+		 }
+		
+		String searchValue = request.getParameter("searchValue");
+		JSONArray arrayObj=new JSONArray();
+		JSONObject jsonObj = null;
+
+
+		//뽑은 후 json파싱
+		for(String str : resultlist) {
+		   	jsonObj = new JSONObject();
+		   	jsonObj.put("data", str);
+		    arrayObj.put(jsonObj);
 		}
-			return "redirect:/";
-	}*/
+
+		PrintWriter pw = response.getWriter();
+		pw.print(arrayObj);
+		pw.flush();
+		pw.close();
+	
+	}
+	
+	@RequestMapping(value="/searchTitle.do",method=RequestMethod.POST)
+	public String test2(HttpServletRequest request, HttpServletResponse response,Model model){
+		response.setContentType("text/html;charset=UTF-8");
+		String title = request.getParameter("tags");
+		model.addAttribute("search",adminDao.searchTitle(title));
+		model.addAttribute("alist", adminDao.selectAll());
+		return "admin/search";
+	}
+	
+	@RequestMapping(value="/test.do",method=RequestMethod.POST)
+	public String test(HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		
+		
+		List<CookVo> list = adminDao.searchAll();
+		ArrayList<String> resultlist = new ArrayList<String>();
+		 for(CookVo bean : list){
+			 resultlist.add(bean.getTitle());
+		 }
+		
+		 //String searchValue = request.getParameter("searchValue");
+		// model.addAttribute("search",adminDao.searchTitle(searchValue));
+		 
+		
+		JSONArray arrayObj=new JSONArray();
+		JSONObject jsonObj = null;
+
+		//////////// 임의의 데이터(db라 가정하자) ////////////  
+//		ArrayList<String> dblist = new ArrayList<String>();
+//		dblist.add("Afghanistan");
+//		dblist.add("Albania");
+//		dblist.add("Algeria");
+//		dblist.add("American");
+//		dblist.add("Samoa");
+//		dblist.add("Andorra");
+
+//		for(String str : dblist) {
+//		    if(str.toLowerCase().startsWith(searchValue)) {
+//		    	resultlist.add(str);
+//		    }
+//		}
+		///////////resultlist를 db에서 조회후 뽑아온 list라고 가정한다.///////////
+
+		//뽑은 후 json파싱
+		for(String str : resultlist) {
+		   	jsonObj = new JSONObject();
+		   	jsonObj.put("data", str);
+		    arrayObj.put(jsonObj);
+		}
+
+		PrintWriter pw = response.getWriter();
+		pw.print(arrayObj);
+		pw.flush();
+		pw.close();
+	
+		return "admin/test4";
+	}
 	
 	
 }

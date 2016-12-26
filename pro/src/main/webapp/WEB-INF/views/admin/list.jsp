@@ -180,7 +180,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box">
-                        <a href="#list" id="clist">
+                        <a href="/pro/cooklist.do" id="clist">
                         <i class="fa fa-4x fa-diamond text-primary sr-icons">List</i>
                         </a>
                     </div>
