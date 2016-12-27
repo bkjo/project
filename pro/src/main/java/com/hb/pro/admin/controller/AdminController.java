@@ -30,6 +30,7 @@ public class AdminController {
 	private AdminDao adminDao;
 	private int result;
 	
+	
 	@RequestMapping(value="/login.do",method=RequestMethod.POST)
 	public String adminLogin(Model model,HttpServletRequest request, HttpSession session) {
 		String id = request.getParameter("adminId");
@@ -74,10 +75,12 @@ public class AdminController {
 		else{
 			out.write("YES");
 		}
+		out.flush();
+		out.close();
 	}
 	
 	@RequestMapping(value="/insert.do",method=RequestMethod.POST)
-	public String adminInsert(AdminVo bean,HttpServletRequest request,HttpServletResponse response,Model model){
+	public String adminInsert(AdminVo bean){
 			adminDao.insertOne(bean);
 			return "redirect:/";
 		}
@@ -195,17 +198,17 @@ public class AdminController {
 	
 	
 	@RequestMapping(value="/search.do",method=RequestMethod.POST)
-	public void titleSearch(HttpServletRequest request,HttpServletResponse response,Model model) throws Exception {
+	public void searchAll(HttpServletRequest request,HttpServletResponse response,Model model) throws Exception {
 		response.setContentType("text/html;charset=UTF-8");
+		String title = request.getParameter("tags");
 		
-		
-		List<CookVo> list = adminDao.searchAll();
+		String searchValue = request.getParameter("searchValue");
+		List<CookVo> list = adminDao.searchAll(searchValue);
 		ArrayList<String> resultlist = new ArrayList<String>();
 		 for(CookVo bean : list){
 			 resultlist.add(bean.getTitle());
 		 }
 		
-		String searchValue = request.getParameter("searchValue");
 		JSONArray arrayObj=new JSONArray();
 		JSONObject jsonObj = null;
 
@@ -225,7 +228,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/searchTitle.do",method=RequestMethod.POST)
-	public String test2(HttpServletRequest request, HttpServletResponse response,Model model){
+	public String searchTitle(HttpServletRequest request, HttpServletResponse response,Model model){
 		response.setContentType("text/html;charset=UTF-8");
 		String title = request.getParameter("tags");
 		model.addAttribute("search",adminDao.searchTitle(title));
@@ -233,7 +236,7 @@ public class AdminController {
 		return "admin/search";
 	}
 	
-	@RequestMapping(value="/test.do",method=RequestMethod.POST)
+/*	@RequestMapping(value="/test.do",method=RequestMethod.POST)
 	public String test(HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
 		response.setContentType("text/html;charset=UTF-8");
 		
@@ -280,7 +283,7 @@ public class AdminController {
 		pw.close();
 	
 		return "admin/test4";
-	}
+	}*/
 	
 	
 }

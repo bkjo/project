@@ -204,8 +204,9 @@
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box" id="csearch">
                         <a href="#list">
-                        <i class="fa fa-4x fa-newspaper-o text-primary sr-icons">
-                        seach</i>
+                        <i class="fa fa-4x text-primary sr-icons">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        Seach</i>
                         </a>
                     </div>
                 </div>
@@ -265,27 +266,6 @@
 					<hr/>
 			  </c:forEach>
 			 
-			 
-			<!--   <nav aria-label="Page navigation">
-			  <ul class="pagination">
-			    <li>
-			      <a href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li><a href="#">1</a></li>
-			    <li><a href="#">2</a></li>
-			    <li><a href="#">3</a></li>
-			    <li><a href="#">4</a></li>
-			    <li><a href="#">5</a></li>
-			    <li>
-			      <a href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			  </ul>
-			</nav> -->
-			
 			 <p id="top"><a href="#">top</a></p>
 			
 		</div>
@@ -334,16 +314,16 @@
 		</div>
 		
 		
-		
 		<!-- 요리레시피 검색 -->
 		<div class="row" id="cooksearch">
 			<div class="col-xs-12">
-			<div class="alert alert-warning" role="alert"><h3>등록</h3></div>
+			<div class="alert alert-warning" role="alert"><h3>검색</h3></div>
 			<div>
-				<form action="/pro/searchTitle.do" method="post">
-				  <label for="tags">Tags: </label>
-				  <input type="text" name="tags" id="tags">
-				  <button id="searchbtn">clcik</button>
+				<form action="/pro/searchTitle.do" method="post" class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+					  <input type="text" name="tags" id="tags" class="form-control" placeholder="Search">
+				  		<button class="searchbtn btn btn-default">Submit</button>
+					</div>
 				</form>
 				  </div>
 		</div>

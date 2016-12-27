@@ -1,11 +1,11 @@
 package com.hb.pro.admin.model;
 
 public class CookVo {
-	int cook_num;
-	String title;
-	String mat;
-	String text;
-	String path;
+	private int cook_num;
+	private String title;
+	private String mat;
+	private String text;
+	private String path;
 	
 	public CookVo() {
 
