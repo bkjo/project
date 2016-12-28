@@ -53,4 +53,24 @@ public class AdminDaoImpl implements AdminDao {
 	public List searchTitle(String title) {
 		return sqlSession.selectList("admin.searchTitle",title);
 	}
+	@Override
+	public void basketInsert(Map<String, Object> map) {
+		sqlSession.insert("admin.insertBasket",map);
+	}
+	@Override
+	public void basketDel(int cook_num) {
+		sqlSession.delete("admin.deleteBasket", cook_num);
+	}
+	@Override
+	public int selectBasket(Map<String, Object> map) {
+		return sqlSession.selectOne("admin.selectBasket", map);
+	}
+	@Override
+	public List basketList(String id) {
+		return sqlSession.selectList("admin.basketList",id);
+	}
+	@Override
+	public void idDel(String id) {
+		sqlSession.delete("admin.idDel",id);
+	}
 }

@@ -48,7 +48,6 @@
 .text-faded {
 	color: black;
 }
-
 .cook {
 	background-color: #FFFFCC;
 }
@@ -58,14 +57,15 @@
 .mat {
 	background-color: #FFFFFF;
 }
-
 #top {
 	text-align: right;
 }
-
 .cookhr {
 	width: 100px;
 }
+.img-responsive{
+		height: 300px;
+	}
 </style>
 
 </head>
@@ -91,7 +91,7 @@
 					<li>
 						<%
 							if (session.getAttribute("id") != null) {
-						%> <a class="page-scroll" href="#about">로그아웃</a> <%
+						%> <a class="page-scroll" href="#about">마이페이지</a> <%
  	} else if (session.getAttribute("str") != null) {
  %> <a class="page-scroll" href="#about">회원가입</a>
 						<%
@@ -117,7 +117,7 @@
 			<div class="header-content-inner">
 				<h1 id="homeHeading">요리사이트</h1>
 				<hr>
-				<p>냉장고를 부탁해</p>
+				<p>레시피를 부탁해</p>
 				<a href="#services" class="btn btn-primary btn-xl page-scroll">레시피
 					이동</a>
 			</div>
@@ -137,6 +137,11 @@
 					<hr class="light">
 					<a href="/pro/logout.do"
 						class="page-scroll btn btn-default btn-xl sr-button">로그아웃</a>
+						<a class="page-scroll btn btn-default btn-xl sr-button" href="/pro/basketList.do">즐겨찾기목록</a>
+						<form action="/pro/idDel.do/<%= name %>" method="post" id="idDel">
+                    	<input type="hidden" name="_method" value="delete">
+                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button">회원탈퇴</button>
+                    	</form>
 					<%
 						} else if (session.getAttribute("str") != null) {
 					%>
@@ -355,7 +360,7 @@
 					<hr/>
 			  </c:forEach>
 			
-			 <p id="top"><a href="#">top</a></p>
+			 <p id="top"><a href="#list">top</a></p>
 			
 		</div>
 		</div>
@@ -427,11 +432,9 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-
 			$('.cookt').hide();
 			$('#cookadd').hide();
 			$('.fold').hide();
-
 			$('#idChk').on('click', function() {
 				$.ajax({
 					url : "idck.do",
@@ -483,7 +486,6 @@
 					alert("정상적으로 가입완료");
 				}
 			});
-
 			$('#cookinsert').on('submit', function() {
 				if ($("#cooktitle").val() == "") {
 					alert("요리제목을 꼭 입력하세요!");
@@ -505,7 +507,6 @@
 					alert("정상적으로 업로드 완료");
 				}
 			});
-
 			$('.more').on('click', function() {
 				$(this).css('display', "none");//more버튼 숨기기
 				var index = $(".more").index(this);
@@ -513,7 +514,6 @@
 				$('.fold').eq(index).show();
 				cookts.show();
 			});
-
 			$('.fold').on('click', function() {
 				$(this).css('display', "none");//more버튼 숨기기
 				var index = $(".fold").index(this);
@@ -521,7 +521,6 @@
 				$('.more').eq(index).show();
 				cookts.hide();
 			});
-
 			$('#cadd').on('click', function() {
 				$('#cooklist').hide();
 				$('#cooksearch').hide();
@@ -571,7 +570,14 @@
 					}
 				});
 			})
+			$('#idDel').on('submit',function(){
+				var result = confirm('정말 탈퇴하시겠습니까?');
 
+			    if(result) {
+			    	return true;
+			    }
+			    return false;
+			});
 		});
 	</script>
 

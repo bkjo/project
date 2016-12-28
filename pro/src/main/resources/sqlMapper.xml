@@ -48,4 +48,30 @@
 	    SELECT * FROM cook where title like '%'|| #{value} || '%'
 	  </select>
   
+  
+  
+	  <insert parameterType="java.util.Map" id="insertBasket"> 
+	  INSERT INTO basket VALUES (#{id}, #{cook_num} )
+	   </insert>
+	
+	<delete parameterType="int" id="deleteBasket">
+	 DELETE FROM basket WHERE cook_num=#{value}
+	  </delete>
+	
+	<select parameterType="java.util.Map" resultType="int" id="selectBasket">
+	 SELECT count(*) FROM basket where id=#{id} and cook_num=#{cook_num}
+	  </select>
+
+
+	  <select id="basketList" parameterType="String" resultType="com.hb.pro.admin.model.CookVo">
+ 	    select a.cook_num as cook_num,a.title as title,a.mat as mat,a.text as text,a.path as path
+  		from cook a,(select cook_num from basket where id=#{value} ) b 
+  		where a.cook_num=b.cook_num
+ 	 </select>
+
+  	<delete id="idDel" parameterType="String">
+  		DELETE FROM users WHERE id=#{value}
+ 	 </delete>
+  	
+  
 </mapper>

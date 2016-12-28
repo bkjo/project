@@ -18,4 +18,9 @@ public interface AdminDao {
 	void deleteOne(int cook_num);
 	List searchAll(String title);
 	List searchTitle(String title);
+	void basketInsert(Map<String, Object> map);
+	void basketDel(int cook_num);
+	int selectBasket(Map<String, Object> map);
+	List basketList(String id);
+	void idDel(String id);
 }

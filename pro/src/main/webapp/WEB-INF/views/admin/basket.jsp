@@ -247,107 +247,34 @@
 
 
     <section id="list">
-	<!-- 요리레시피 상세보기 -->
-		<div class="row" id="cookdetail">
+	<!-- 즐겨찾레시피 리스트 -->
+		<div class="row" id="basketlist">
 			<div class="col-xs-12">
-			 <div class="alert alert-warning" role="alert"><h1>상세보기</h1></div>
-			<table class="table text-center">
-			<%
-                	if(session.getAttribute("id")!=null){
-			%>
+			<div class="alert alert-warning" role="alert"><h3>즐겨찾기</h3></div>
+				<c:forEach items="${blist }" var="bean">
+					<div class="media">
+						<div class="media-left media-top">
+						  <a href="/pro/cookOne.do/${bean.cook_num}"><img class="media-object" src="${bean.path }" width="128px" height="96px" alt="${bean.title }"></a>
+						</div>
+						<div class="media-body">
+						  <h3 class="media-heading">${bean.title }</h3>
+						<h5>
+						${bean.mat }
+						</h5>
+						<button class="more">+더보기</button>
+						<p class="cookt">${bean.text }</p>
+						<button class="fold">-접기</button>
+						  </div>
+					</div>
+					<hr/>
+			  </c:forEach>
+			 
+			 <p id="top"><a href="#list">top</a></p>
 			
-			<tr>
-					<td colspan="2">
-								<input type="hidden" id="bean_num" value="${bean.cook_num }" />
-								<%if(session.getAttribute("basket")!=null){ %>
-								<button type="button" class="btn btn-primary text-faded" id="bdelbtn"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></button>
-								<%}else{%>
-								<button type="button" class="btn btn-primary text-faded" id="baddbtn"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
-								<%} %>
-							</td>
-						</tr>
-			<%} %>
-			
-			<tr>
-				<td colspan="2"><img src="${bean.path}" width="400px" height="256px"></td>
-		
-			</tr>
-			<tr>
-				<th>제목</th>
-				<td>${bean.title }</td>
-			</tr>
-			<tr>
-				<th>재료</th>
-				<td>${bean.mat }</td>
-			</tr>
-			<tr>
-				<th>방법</th>
-				<td>${bean.text }</td>
-			</tr>
-				<%
-                	if(session.getAttribute("id")!=null){
-                		String id = (String)session.getAttribute("id");
-                		if(id.equals("admin")){
-                %>
-			<tr>
-				<td colspan="2">
-					<form action="/pro/cookDel.do/${bean.cook_num }" method="post">
-					<button type="button" class="btn btn-primary" id="modify">수정</button>
-						<input type="hidden" name="_method" value="delete" />
-						<input type="hidden" name="str" id="str" value="${bean.path }" />
-						<button type="submit" class="btn btn-danger">삭제</button>
-					</form>
-				</td>
-			</tr>
-				<%
-                	}
-					}
-                		%>
-			</table>
-			</div>
 		</div>
-		
-		<!--  요리레시피 수정 -->
-		<div class="row" id="cookmodify">
-			<div class="col-xs-12">
-			<div class="alert alert-warning" role="alert"><h3>수정</h3></div>
-				<form id="cookmdy" class="form-horizontal" action="/pro/cookmodify.do/${bean.cook_num }" method="post" enctype="multipart/form-data">
-				    
-				  <div class="form-group">
-				    <label for="modifytitle" class="col-sm-2 control-label">요리제목</label>
-				    <div class="col-sm-10">
-				      <input type="text" class="form-control" name="modifytitle" id="modifytitle" placeholder="요리제목을 입력하세요" value="${bean.title }">
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="cookmat" class="col-sm-2 control-label">요리재료</label>
-				    <div class="col-sm-10">
-				      <textarea class="form-control cookmat" name="modifymat" id="modifymat" rows="5" placeholder="요리재료를 입력하세요" >${bean.mat }</textarea>
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="cooktext" class="col-sm-2 control-label">요리방법</label>
-				    <div class="col-sm-10">
-				      <textarea class="form-control cookmat" name="modifytext" id="modifytext" rows="15" placeholder="요리방법을 입력하세요">${bean.text }</textarea>
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="cookimg" class="col-sm-2 control-label">요리이미지</label>
-				    <div class="col-sm-10">
-				      <input type="file" class="form-control" name="filename2" id="filename2" placeholder="이미지 파일을 선택하세요"/>
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <div class="col-sm-offset-2 col-sm-10">
-				      <div class="btn-group" role="group">
-				      <button type="submit" class="btn btn-default">수정</button>
-				      <button type="reset" class="btn btn-default">취소</button>
-				      </div>
-				    </div>
-				  </div>
-				</form>
-			</div>
 		</div>
+	
+		
 		
 		<!-- 요리레시피 등록 -->
 		<div class="row" id="cookadd">
@@ -456,9 +383,11 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
 	<script type="text/javascript">
 $(document).ready(function(){
+	$('.cookt').hide();
 	$('#cookadd').hide();
-	$('#cookmodify').hide();
+	$('.fold').hide();
 	$('#cooksearch').hide();
+	
 	$('#idChk').on('click',function(){
 		  $.ajax({
 				url:"idck.do",
@@ -534,49 +463,7 @@ $(document).ready(function(){
 			alert("정상적으로 업로드 완료");
 		}
 	});
-	
-	$('#cookmdy').on('submit',function(){
-		if ($("#modifytitle").val() == "") {
-		    alert("요리제목을 꼭 입력하세요!");
-		    $("#modifytitle").focus();
-		    return false;
-		}else if($("#modifymat").val() == ""){
-			alert("요리재료를 꼭 입력하세요!");
-			return false;
-			$("#modifymat").focus();
-		}else if($("#modifytext").val() == ""){
-			alert("요리방법을 꼭 입력하세요!");
-			return false;
-			$("#modifytext").focus();
-		}else if($("#filename2").val() == ""){
-			alert("요리이미지를 꼭 업로드하세요!");
-			return false;
-			$("#filename2").focus();
-		}else{
-			alert("정상적으로 수정 완료");
-		}
-	});
-	
-	
-	$('#clist').on('click',function(){
-		$('#cookadd').hide();
-		$('#cookmodify').hide();
-		$('#cookdetail').show();
-	});
-	$('#modify').on('click',function(){
-		$('#cookadd').hide();
-		$('#cookdetail').hide();
-		$('#cookmodify').show();
-		
-		var dbMat = $('#modifymat').val();
-		var dbTxt = $('#modifytext').val();
-		dbMat = dbMat.replace(/<br>/g, '\n');
-		dbTxt = dbTxt.replace(/<br>/g, '\n');
-		$('#modifymat').text(dbMat);
-		$('#modifytext').text(dbTxt);
-		
-	});
-	
+
 	$(function(){
 		$( "#tags" ).autocomplete({
 			source : function( request, response ) {
@@ -618,51 +505,31 @@ $(document).ready(function(){
 		});
 	})
 	
+	$('.more').on('click',function(){
+			 $(this).css('display',"none");//more버튼 숨기기
+			 var index = $( ".more" ).index( this );
+			 var cookts = $(".cookt").eq(index);
+			 $('.fold').eq(index).show();
+			 cookts.show();
+	});
+	
+	$('.fold').on('click',function(){
+		 $(this).css('display',"none");//more버튼 숨기기
+		 var index = $( ".fold" ).index( this );
+		 var cookts = $(".cookt").eq(index);
+		 $('.more').eq(index).show();
+		 cookts.hide();
+	});
+	
 	$('#cadd').on('click',function(){
-		$('#cookdetail').hide();
-		$('#cookmodify').hide();
+		$('#basketlist').hide();
 		$('#cookadd').show();
 		$('#cooksearch').hide();
 	});
 	$('#csearch').on('click',function(){
-		$('#cookdetail').hide();
-		$('#cookmodify').hide();
+		$('#basketlist').hide();
 		$('#cooksearch').show();
 		$('#cookadd').hide();
-	});
-	
-	$('#baddbtn').on('click',function(){
-		 $.ajax({
-				url:"/pro/basketInsert.do",
-				type: 'post',
-				dataType: 'json',
-				data: ({
-					cook_num: $("#bean_num").val()
-				}),
-				success: function(data){
-					alert(data.result);
-					$('#bdelbtn').show();
-					$('#baddbtn').hide();
-					location.reload();
-				}
-		 });
-	});
-	
-	$('#bdelbtn').on('click',function(){
-		 $.ajax({
-				url:"/pro/basketDel.do",
-				type: 'post',
-				dataType: 'json',
-				data: ({
-					cook_num: $("#bean_num").val()
-				}),
-				success: function(data){
-					alert(data.rs);
-					$('#bdelbtn').hide();
-					$('#baddbtn').show();
-					location.reload();
-				}
-		 });
 	});
 	$('#idDel').on('submit',function(){
 		var result = confirm('정말 탈퇴하시겠습니까?');
@@ -672,10 +539,12 @@ $(document).ready(function(){
 	    }
 	    return false;
 	});
-
-	
 	
 });
+	
+
+	
+
 </script>
 
 </body>

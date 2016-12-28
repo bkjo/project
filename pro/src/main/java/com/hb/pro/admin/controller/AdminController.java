@@ -53,6 +53,9 @@ public class AdminController {
 		if(session.getAttribute("str")!=null){
 			session.removeAttribute("str");
 		}
+		if(session.getAttribute("basket")!=null){
+			session.removeAttribute("basket");
+		}
 		return "redirect:/";
 	}
 	@RequestMapping(value="/join.do",method=RequestMethod.GET)
@@ -60,6 +63,21 @@ public class AdminController {
 		session.setAttribute("str",1);
 		model.addAttribute("alist", adminDao.selectAll());
 		return "admin/main";
+	}
+	
+	@RequestMapping(value="/idDel.do/{id}",method=RequestMethod.DELETE)
+	public String idDel(@PathVariable("id") String id,HttpSession session){
+		 adminDao.idDel(id);
+		 if(session.getAttribute("id")!=null){
+				session.removeAttribute("id");
+		}
+		if(session.getAttribute("str")!=null){
+				session.removeAttribute("str");
+		}
+		if(session.getAttribute("basket")!=null){
+			session.removeAttribute("basket");
+		}
+		 return "redirect:/";
 	}
 	
 	@RequestMapping(value="/idck.do",method=RequestMethod.POST)
@@ -132,10 +150,30 @@ public class AdminController {
 			return "redirect:/";
 		}
 	
+//	@RequestMapping(value="/cookOne.do/{cook_num}", method=RequestMethod.GET)
+//	public String cookOne(Model model,@PathVariable("cook_num") int cook_num,CookVo bean) {
+//		model.addAttribute("alist", adminDao.selectAll());
+//		model.addAttribute("bean", adminDao.selectOne(cook_num));
+//		return "admin/list";
+//	}
 	@RequestMapping(value="/cookOne.do/{cook_num}", method=RequestMethod.GET)
-	public String cookOne(Model model,@PathVariable("cook_num") int cook_num,CookVo bean) {
+	public String cookOne(Model model,@PathVariable("cook_num") int cook_num,CookVo bean,HttpSession session) {
 		model.addAttribute("alist", adminDao.selectAll());
 		model.addAttribute("bean", adminDao.selectOne(cook_num));
+		if(session.getAttribute("id")!=null){
+			String id = (String)session.getAttribute("id");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", id);
+			map.put("cook_num", cook_num);
+			result = adminDao.selectBasket(map);
+			if(result>0){
+				session.setAttribute("basket", 1);
+			}else{
+				if(session.getAttribute("basket")!=null){
+					session.removeAttribute("basket");
+				}
+			}
+		}
 		return "admin/list";
 	}
 	
@@ -236,54 +274,57 @@ public class AdminController {
 		return "admin/search";
 	}
 	
-/*	@RequestMapping(value="/test.do",method=RequestMethod.POST)
-	public String test(HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
+	@RequestMapping(value="/basketInsert.do",method=RequestMethod.POST)
+	public void basketInsert(Model model,HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception {
+		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+		int cook_num = Integer.parseInt((String)request.getParameter("cook_num").trim());
+		String id = (String)session.getAttribute("id");
+		PrintWriter out = response.getWriter();
 		
+		JSONObject jsonObj = new JSONObject();
+	   	jsonObj.put("result", "즐겨찾기에 추가되었습니다.");
 		
-		List<CookVo> list = adminDao.searchAll();
-		ArrayList<String> resultlist = new ArrayList<String>();
-		 for(CookVo bean : list){
-			 resultlist.add(bean.getTitle());
-		 }
+		Map<String, Object> map = new HashMap();
+		map.put("id", id);
+		map.put("cook_num", cook_num);
+	   	
+		adminDao.basketInsert(map);
 		
-		 //String searchValue = request.getParameter("searchValue");
-		// model.addAttribute("search",adminDao.searchTitle(searchValue));
-		 
-		
-		JSONArray arrayObj=new JSONArray();
-		JSONObject jsonObj = null;
-
-		//////////// 임의의 데이터(db라 가정하자) ////////////  
-//		ArrayList<String> dblist = new ArrayList<String>();
-//		dblist.add("Afghanistan");
-//		dblist.add("Albania");
-//		dblist.add("Algeria");
-//		dblist.add("American");
-//		dblist.add("Samoa");
-//		dblist.add("Andorra");
-
-//		for(String str : dblist) {
-//		    if(str.toLowerCase().startsWith(searchValue)) {
-//		    	resultlist.add(str);
-//		    }
-//		}
-		///////////resultlist를 db에서 조회후 뽑아온 list라고 가정한다.///////////
-
-		//뽑은 후 json파싱
-		for(String str : resultlist) {
-		   	jsonObj = new JSONObject();
-		   	jsonObj.put("data", str);
-		    arrayObj.put(jsonObj);
-		}
-
-		PrintWriter pw = response.getWriter();
-		pw.print(arrayObj);
-		pw.flush();
-		pw.close();
+	   	out.print(jsonObj);
+	   	out.flush();
+	   	out.close();
+	}
 	
-		return "admin/test4";
-	}*/
+	
+	
+	@RequestMapping(value="/basketDel.do",method=RequestMethod.POST)
+	public void basketDel(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		int cook_num = Integer.parseInt((String)request.getParameter("cook_num").trim());
+		PrintWriter out = response.getWriter();
+		
+		JSONObject jsonObj = new JSONObject();
+	   	jsonObj.put("rs", "즐겨찾기에 제거되었습니다.");
+		
+	   	
+		adminDao.basketDel(cook_num);
+		if(session.getAttribute("basket")!=null){
+			session.removeAttribute("basket");
+		}
+	   	out.print(jsonObj);
+	   	out.flush();
+	   	out.close();
+	}
+		@RequestMapping(value="/basketList.do", method=RequestMethod.GET)
+		public String basketList(Model model,HttpSession session) {
+			model.addAttribute("alist", adminDao.selectAll());
+			String id = (String)session.getAttribute("id");
+			model.addAttribute("blist", adminDao.basketList(id));
+			
+			return "admin/basket";
+		}
 	
 	
 }

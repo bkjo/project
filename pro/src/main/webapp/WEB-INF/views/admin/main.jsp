@@ -55,7 +55,9 @@
 	.cookhr{
 		width: 100px;
 	}
-	
+	.img-responsive{
+		height: 300px;
+	}
 	</style>
 	
 </head>
@@ -69,7 +71,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll"  href="/pro">냉짝</a>
+                <a class="navbar-brand page-scroll"  href="/pro"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -79,7 +81,7 @@
                     <% 
                     if(session.getAttribute("id")!=null){
                     %>
-                       <a class="page-scroll" href="#about">로그아웃</a>
+                       <a class="page-scroll" href="#about">마이페이지</a>
                        <% }else if(session.getAttribute("str")!=null){
                         %>
                         <a class="page-scroll" href="#about">회원가입</a>
@@ -110,7 +112,7 @@
             <div class="header-content-inner">
                 <h1 id="homeHeading">요리사이트</h1>
                 <hr>
-                <p>냉장고를 부탁해</p>
+                <p>레시피를 부탁해</p>
                 <a href="#services" class="btn btn-primary btn-xl page-scroll">레시피 이동</a>
             </div>
         </div>
@@ -126,6 +128,11 @@
                        	<h2 class="section-heading"><%= name %>님 환영합니다</h2>
                     	<hr class="light">
                     	<a href="/pro/logout.do" class="page-scroll btn btn-default btn-xl sr-button">로그아웃</a>
+                    	<a class="page-scroll btn btn-default btn-xl sr-button" href="/pro/basketList.do">즐겨찾기목록</a>
+                    	<form action="/pro/idDel.do/<%= name %>" method="post" id="idDel">
+                    	<input type="hidden" name="_method" value="delete">
+                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button">회원탈퇴</button>
+                    	</form>
                    <%
                 	}else if(session.getAttribute("str")!=null){
                 	%>
@@ -223,7 +230,7 @@
                 <c:forEach items="${alist }" var="bean" end="7">
                 <div class="col-sm-6 col-md-3">
                    <a href="${bean.path }" class="portfolio-box">
-                        <img src="${bean.path }" class="img-responsive" alt=""/>
+                        <img src="${bean.path }" class="img-responsive"  alt="${bean.title }"/>
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -251,7 +258,7 @@
 				<c:forEach items="${alist }" var="bean">
 					<div class="media">
 						<div class="media-left media-top">
-						  <a href="/pro/cookOne.do/${bean.cook_num}"><img class="media-object" src="${bean.path }" width="96px" height="96px" alt="${bean.title }"></a>
+						  <a href="/pro/cookOne.do/${bean.cook_num}"><img class="media-object" src="${bean.path }" width="128px" height="96px" alt="${bean.title }"></a>
 						</div>
 						<div class="media-body">
 						  <h3 class="media-heading">${bean.title }</h3>
@@ -266,7 +273,7 @@
 					<hr/>
 			  </c:forEach>
 			 
-			 <p id="top"><a href="#">top</a></p>
+			 <p id="top"><a href="#list">top</a></p>
 			
 		</div>
 		</div>
@@ -321,7 +328,7 @@
 			<div>
 				<form action="/pro/searchTitle.do" method="post" class="navbar-form navbar-left" role="search">
 					<div class="form-group">
-					  <input type="text" name="tags" id="tags" class="form-control" placeholder="Search">
+					  <input type="text" name="tags" id="tags" placeholder="Search">
 				  		<button class="searchbtn btn btn-default">Submit</button>
 					</div>
 				</form>
@@ -474,6 +481,7 @@ $(document).ready(function(){
 		});
 	
 	
+	
 	$('#cookinsert').on('submit',function(){
 		if ($("#cooktitle").val() == "") {
 		    alert("요리제목을 꼭 입력하세요!");
@@ -567,6 +575,14 @@ $(function(){
 		select: function( event, ui ) {}
 	});
 })
+$('#idDel').on('submit',function(){
+	var result = confirm('정말 탈퇴하시겠습니까?');
+
+    if(result) {
+    	return true;
+    }
+    return false;
+});
 	
 });
 </script>
