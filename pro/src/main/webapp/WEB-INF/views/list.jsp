@@ -32,19 +32,16 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 	<style type="text/css">
-	body{
-		margin-left: 5px;
-	}
 	.text-faded{
 		color: black;
 	}
 	.cook{
 		background-color: #FFFFCC;
 	}
+	/* .add{
+		display: none
+	 }*/
 	.mat{
 		background-color: #FFFFFF;
 	}
@@ -55,15 +52,8 @@
 		width: 100px;
 	}
 	.img-responsive{
-		height: 250px;
+		height: 300px;
 	}
-	.fcolor{
-		color: #999999;
-	}
-	.fcolor2{
-		color: white;
-	}
-	
 	</style>
 	
 </head>
@@ -77,7 +67,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll"  href="/pro"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+                <a class="navbar-brand page-scroll" href="/pro">냉짝</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -87,7 +77,7 @@
                     <% 
                     if(session.getAttribute("id")!=null){
                     %>
-                       <a class="page-scroll" href="#about">로그아웃</a>
+                       <a class="page-scroll" href="#about">마이페이지</a>
                        <% }else if(session.getAttribute("str")!=null){
                         %>
                         <a class="page-scroll" href="#about">회원가입</a>
@@ -118,7 +108,7 @@
             <div class="header-content-inner">
                 <h1 id="homeHeading">요리사이트</h1>
                 <hr>
-                <p>냉장고를 부탁해</p>
+                <p>레시피를 부탁해</p>
                 <a href="#services" class="btn btn-primary btn-xl page-scroll">레시피 이동</a>
             </div>
         </div>
@@ -131,35 +121,35 @@
                 	<% if(session.getAttribute("id")!=null){ 
                 		String name = (String)session.getAttribute("id");
                		%>
-                       		<h2 class="section-heading"><%= name %>님 환영합니다</h2>
+                       	<h2 class="section-heading"><%= name %>님 환영합니다</h2>
                     	<hr class="light">
-                    	<a href="/pro/logout.do" class="page-scroll btn btn-default btn-xl sr-button fcolor">로그아웃</a>
-                    	<a class="page-scroll btn btn-default btn-xl sr-button fcolor" href="/pro/basketList.do">즐겨찾기목록</a>
+                    	<a href="/pro/logout.do" class="page-scroll btn btn-default btn-xl sr-button">로그아웃</a>
+                    	<a class="page-scroll btn btn-default btn-xl sr-button" href="/pro/basketList.do">즐겨찾기목록</a>
                     	<form action="/pro/idDel.do/<%= name %>" method="post" id="idDel">
                     	<input type="hidden" name="_method" value="delete">
-                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button fcolor">회원탈퇴</button>
+                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button">회원탈퇴</button>
                     	</form>
-                    <%
+                   <%
                 	}else if(session.getAttribute("str")!=null){
                 	%>
                 		<h2 class="section-heading">회원가입</h2>
                         <hr class="light">
                         <form id="insertform" action="/pro/insert.do" method="post">
-			<p class="text-faded"><label for="id" class="text-faded fcolor2" >아이디</label>
+			<p class="text-faded"><label for="id" class="text-faded">아이디</label>
 			<input type="text" id="id" name="id" class="text-faded" maxlength="8" size="8"/>
 				<input type="hidden" id="hid" name="hid" value="0"/>
 			
 			<button id="idChk" type="button" class="text-faded">중복확인</button></p>
 		<p class="text-faded">
-			<label for="pw" class="text-faded fcolor2">비밀번호</label>
+			<label for="pw" class="text-faded">비밀번호</label>
 			<input type="password" id="pw" name="pw" maxlength="8" size="8" class="text-faded"/>
 			</p>
 		<p class="text-faded">
-			<label for="pwChk" class="text-faded fcolor2">비밀번호확인</label></td>
+			<label for="pwChk" class="text-faded">비밀번호확인</label></td>
 			<input type="password" id="pwChk" name="pwChk" maxlength="8" size="8" class="text-faded"/></p>
 		
-        <button type="submit" class="page-scroll btn btn-default btn-xl sr-button fcolor">입력</button>
-        <a href="/pro" class="page-scroll btn btn-default btn-xl sr-button fcolor">취소</a>
+        <button type="submit" class="page-scroll btn btn-default btn-xl sr-button">입력</button>
+        <button type="reset" class="page-scroll btn btn-default btn-xl sr-button">취소</button>
                      
                        </form>
                 	<%
@@ -172,8 +162,8 @@
 	                    id <input type="text" name="adminId" id="adminId" maxlength="8" size="8"/>&nbsp;
 	                    pw <input type="password" name="adminPw" id="adminPw" maxlength="8" size="8" />
 	                    </p>
-                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button fcolor">로그인</button>
-                    	<a href="/pro/join.do" class="page-scroll btn btn-default btn-xl sr-button fcolor">회원가입</a>
+                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button">로그인</button>
+                    	<a href="/pro/join.do" class="page-scroll btn btn-default btn-xl sr-button">회원가입</a>
                     </form>
                     
                		<% } %>
@@ -198,7 +188,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box">
-                        <a href="#list" id="clist">
+                        <a href="/pro/cooklist.do" id="clist">
                         <i class="fa fa-4x fa-diamond text-primary sr-icons">List</i>
                         </a>
                     </div>
@@ -217,8 +207,9 @@
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box" id="csearch">
                         <a href="#list">
-                        <i class="fa fa-4x fa-newspaper-o text-primary sr-icons">
-                        seach</i>
+                        <i class="fa fa-4x text-primary sr-icons">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        Seach</i>
                         </a>
                     </div>
                 </div>
@@ -256,54 +247,107 @@
 
 
     <section id="list">
-	<!-- 요리레시피 리스트 -->
-		<div class="row" id="cooklist">
+	<!-- 요리레시피 상세보기 -->
+		<div class="row" id="cookdetail">
 			<div class="col-xs-12">
-			<div class="alert alert-warning" role="alert"><h3>리스트</h3></div>
-				<c:forEach items="${alist }" var="bean">
-					<div class="media">
-						<div class="media-left media-top">
-						  <a href="/pro/cookOne.do/${bean.cook_num}"><img class="media-object" src="${bean.path }" width="128px" height="86px" alt="${bean.title }"></a>
-						</div>
-						<div class="media-body">
-						  <h3 class="media-heading">${bean.title }</h3>
-						<h5>
-						${bean.mat }
-						</h5>
-						<button class="more">+더보기</button>
-						<p class="cookt">${bean.text }</p>
-						<button class="fold">-접기</button>
-						  </div>
-					</div>
-					<hr/>
-			  </c:forEach>
-			 
-			 
-			<!--   <nav aria-label="Page navigation">
-			  <ul class="pagination">
-			    <li>
-			      <a href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li><a href="#">1</a></li>
-			    <li><a href="#">2</a></li>
-			    <li><a href="#">3</a></li>
-			    <li><a href="#">4</a></li>
-			    <li><a href="#">5</a></li>
-			    <li>
-			      <a href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			  </ul>
-			</nav> -->
+			 <div class="alert alert-warning" role="alert"><h1>상세보기</h1></div>
+			<table class="table text-center">
+			<%
+                	if(session.getAttribute("id")!=null){
+			%>
 			
-			 <p id="top"><a href="#">top</a></p>
+			<tr>
+					<td colspan="2">
+								<input type="hidden" id="bean_num" value="${bean.cook_num }" />
+								<%if(session.getAttribute("basket")!=null){ %>
+								<button type="button" class="btn btn-primary text-faded" id="bdelbtn"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></button>
+								<%}else{%>
+								<button type="button" class="btn btn-primary text-faded" id="baddbtn"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
+								<%} %>
+							</td>
+						</tr>
+			<%} %>
 			
-		</div>
+			<tr>
+				<td colspan="2"><img src="${bean.path}" width="400px" height="256px"></td>
+		
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td>${bean.title }</td>
+			</tr>
+			<tr>
+				<th>재료</th>
+				<td>${bean.mat }</td>
+			</tr>
+			<tr>
+				<th>방법</th>
+				<td>${bean.text }</td>
+			</tr>
+				<%
+                	if(session.getAttribute("id")!=null){
+                		String id = (String)session.getAttribute("id");
+                		if(id.equals("admin")){
+                %>
+			<tr>
+				<td colspan="2">
+					<form action="/pro/cookDel.do/${bean.cook_num }" method="post">
+					<button type="button" class="btn btn-primary" id="modify">수정</button>
+						<input type="hidden" name="_method" value="delete" />
+						<input type="hidden" name="str" id="str" value="${bean.path }" />
+						<button type="submit" class="btn btn-danger">삭제</button>
+					</form>
+				</td>
+			</tr>
+				<%
+                	}
+					}
+                		%>
+			</table>
+			</div>
 		</div>
 		
+		<!--  요리레시피 수정 -->
+		<div class="row" id="cookmodify">
+			<div class="col-xs-12">
+			<div class="alert alert-warning" role="alert"><h3>수정</h3></div>
+				<form id="cookmdy" class="form-horizontal" action="/pro/cookmodify.do/${bean.cook_num }" method="post" enctype="multipart/form-data">
+				    
+				  <div class="form-group">
+				    <label for="modifytitle" class="col-sm-2 control-label">요리제목</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="modifytitle" id="modifytitle" placeholder="요리제목을 입력하세요" value="${bean.title }">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="cookmat" class="col-sm-2 control-label">요리재료</label>
+				    <div class="col-sm-10">
+				      <textarea class="form-control cookmat" name="modifymat" id="modifymat" rows="5" placeholder="요리재료를 입력하세요" >${bean.mat }</textarea>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="cooktext" class="col-sm-2 control-label">요리방법</label>
+				    <div class="col-sm-10">
+				      <textarea class="form-control cookmat" name="modifytext" id="modifytext" rows="15" placeholder="요리방법을 입력하세요">${bean.text }</textarea>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="cookimg" class="col-sm-2 control-label">요리이미지</label>
+				    <div class="col-sm-10">
+				      <input type="file" class="form-control" name="filename2" id="filename2" placeholder="이미지 파일을 선택하세요"/>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <div class="btn-group" role="group">
+				      <button type="submit" class="btn btn-default">수정</button>
+				      <button type="reset" class="btn btn-default">취소</button>
+				      </div>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
 		
 		<!-- 요리레시피 등록 -->
 		<div class="row" id="cookadd">
@@ -346,56 +390,24 @@
 			</div>
 		</div>
 		
-		
-		
 		<!-- 요리레시피 검색 -->
 		<div class="row" id="cooksearch">
 			<div class="col-xs-12">
-			<div class="alert alert-warning" role="alert"><h3>등록</h3></div>
+			<div class="alert alert-warning" role="alert"><h3>검색</h3></div>
 			<div>
-				<form action="/pro/searchTitle.do" method="post">
-				  <label for="tags">Tags: </label>
-				  <input type="text" name="tags" id="tags">
-				  <button id="searchbtn">clcik</button>
+				<form action="/pro/searchTitle.do" method="post" class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+					  <input type="text" name="tags" id="tags" class="form-control" placeholder="Search">
+				  		<button class="searchbtn btn btn-default">Submit</button>
+					</div>
 				</form>
 				  </div>
 		</div>
 	 </div>
 		
-<%-- 		<!-- 요리레시피 상세보기 -->
-		<div class="row cookdetail">
-			<div class="col-xs-12">
-				<div class="page-header">
-				  <h1>상세페이지 <small>${bean.cook_num }님의 정보</small></h1>
-				</div>
-			</div>
-		</div>
-		<div class="row cookdetail">
-			<div class="col-xs-12">
-			<table class="table">
-			<tr>
-				<td>사번</td>
-				<td>${bean.title }</td>
-			</tr>
-			<tr>
-				<td>이름</td>
-				<td>${bean.mat }</td>
-			</tr>
-			<tr>
-				<td>날짜</td>
-				<td>${bean.text }</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button type="button" class="btn btn-primary btnEdit">수정</button>
-					<a class="btn btn-danger btnDel" href="#" role="button">삭제</a>
-				</td>
-			</tr>
-			</table>
-			</div>
-		</div>
-		--%>
+		
     </section> 
+
 
     
 
@@ -425,6 +437,7 @@
                 </div>
             </div>
         </div>
+        
     </section>
 
     <!-- jQuery -->
@@ -440,19 +453,12 @@
 
     <!-- Theme JavaScript -->
     <script src="/pro/resources/js/creative.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
 	<script type="text/javascript">
 $(document).ready(function(){
-	
-	$('.cookt').hide();
 	$('#cookadd').hide();
-	$('.fold').hide();
+	$('#cookmodify').hide();
 	$('#cooksearch').hide();
-	
 	$('#idChk').on('click',function(){
 		  $.ajax({
 				url:"idck.do",
@@ -529,85 +535,145 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('.more').on('click',function(){
-			 $(this).css('display',"none");//more버튼 숨기기
-			 var index = $( ".more" ).index( this );
-			 var cookts = $(".cookt").eq(index);
-			 $('.fold').eq(index).show();
-			 cookts.show();
+	$('#cookmdy').on('submit',function(){
+		if ($("#modifytitle").val() == "") {
+		    alert("요리제목을 꼭 입력하세요!");
+		    $("#modifytitle").focus();
+		    return false;
+		}else if($("#modifymat").val() == ""){
+			alert("요리재료를 꼭 입력하세요!");
+			return false;
+			$("#modifymat").focus();
+		}else if($("#modifytext").val() == ""){
+			alert("요리방법을 꼭 입력하세요!");
+			return false;
+			$("#modifytext").focus();
+		}else if($("#filename2").val() == ""){
+			alert("요리이미지를 꼭 업로드하세요!");
+			return false;
+			$("#filename2").focus();
+		}else{
+			alert("정상적으로 수정 완료");
+		}
 	});
 	
-	$('.fold').on('click',function(){
-		 $(this).css('display',"none");//more버튼 숨기기
-		 var index = $( ".fold" ).index( this );
-		 var cookts = $(".cookt").eq(index);
-		 $('.more').eq(index).show();
-		 cookts.hide();
-	});
 	
 	$('#clist').on('click',function(){
 		$('#cookadd').hide();
-		$('#cooklist').show();
-		$('#cooksearch').hide();
+		$('#cookmodify').hide();
+		$('#cookdetail').show();
 	});
+	$('#modify').on('click',function(){
+		$('#cookadd').hide();
+		$('#cookdetail').hide();
+		$('#cookmodify').show();
+		
+		var dbMat = $('#modifymat').val();
+		var dbTxt = $('#modifytext').val();
+		dbMat = dbMat.replace(/<br>/g, '\n');
+		dbTxt = dbTxt.replace(/<br>/g, '\n');
+		$('#modifymat').text(dbMat);
+		$('#modifytext').text(dbTxt);
+		
+	});
+	
+	$(function(){
+		$( "#tags" ).autocomplete({
+			source : function( request, response ) {
+				//많이 봤죠? jquery Ajax로 비동기 통신한 후
+				//json객체를 서버에서 내려받아서 리스트 뽑는 작업
+		        $.ajax({
+		        	//호출할 URL
+		            url: "search.do",
+		            //우선 jsontype json으로
+		            type: "post",
+		            dataType: "json",
+		            // parameter 값이다. 여러개를 줄수도 있다.
+		            data: {
+		              //request.term >> 이거 자체가 text박스내에 입력된 값이다.
+		              searchValue: request.term
+		            },
+		            success: function( result ) {
+		            	//return 된놈을 response() 함수내에 다음과 같이 정의해서 뽑아온다.
+		                response( 
+		                	$.map( result, function( item ) {
+		                			return {
+		                			//label : 화면에 보여지는 텍스트
+		                			//value : 실제 text태그에 들어갈 값
+		                			//본인은 둘다 똑같이 줬음
+		                			//화면에 보여지는 text가 즉, value가 되기때문 
+		                  				label: item.data,
+		                  				value: item.data
+		                			}
+		              		})
+		              	);
+		            }
+		          });
+		    },
+		        //최소 몇자 이상되면 통신을 시작하겠다라는 옵션
+			minLength: 2,
+			//자동완성 목록에서 특정 값 선택시 처리하는 동작 구현
+			//구현없으면 단순 text태그내에 값이 들어간다.
+			select: function( event, ui ) {}
+		});
+	})
+	
 	$('#cadd').on('click',function(){
-		$('#cooklist').hide();
-		$('#cooksearch').hide();
+		$('#cookdetail').hide();
+		$('#cookmodify').hide();
 		$('#cookadd').show();
+		$('#cooksearch').hide();
 	});
 	$('#csearch').on('click',function(){
-		$('#cooklist').hide();
+		$('#cookdetail').hide();
+		$('#cookmodify').hide();
 		$('#cooksearch').show();
 		$('#cookadd').hide();
 	});
-$(function(){
-	$( "#tags" ).autocomplete({
-		source : function( request, response ) {
-			//많이 봤죠? jquery Ajax로 비동기 통신한 후
-			//json객체를 서버에서 내려받아서 리스트 뽑는 작업
-	        $.ajax({
-	        	//호출할 URL
-	            url: "search.do",
-	            //우선 jsontype json으로
-	            type: "post",
-	            dataType: "json",
-	            // parameter 값이다. 여러개를 줄수도 있다.
-	            data: {
-	              //request.term >> 이거 자체가 text박스내에 입력된 값이다.
-	              searchValue: request.term
-	            },
-	            success: function( result ) {
-	            	//return 된놈을 response() 함수내에 다음과 같이 정의해서 뽑아온다.
-	                response( 
-	                	$.map( result, function( item ) {
-	                			return {
-	                			//label : 화면에 보여지는 텍스트
-	                			//value : 실제 text태그에 들어갈 값
-	                			//본인은 둘다 똑같이 줬음
-	                			//화면에 보여지는 text가 즉, value가 되기때문 
-	                  				label: item.data,
-	                  				value: item.data
-	                			}
-	              		})
-	              	);
-	            }
-	          });
-	    },
-	        //최소 몇자 이상되면 통신을 시작하겠다라는 옵션
-		minLength: 1,
-		//자동완성 목록에서 특정 값 선택시 처리하는 동작 구현
-		//구현없으면 단순 text태그내에 값이 들어간다.
-		select: function( event, ui ) {}
+	
+	$('#baddbtn').on('click',function(){
+		 $.ajax({
+				url:"/pro/basketInsert.do",
+				type: 'post',
+				dataType: 'json',
+				data: ({
+					cook_num: $("#bean_num").val()
+				}),
+				success: function(data){
+					alert(data.result);
+					$('#bdelbtn').show();
+					$('#baddbtn').hide();
+					location.reload();
+				}
+		 });
 	});
-})
-$('#idDel').on('submit',function(){
-	var result = confirm('정말 탈퇴하시겠습니까?');
+	
+	$('#bdelbtn').on('click',function(){
+		 $.ajax({
+				url:"/pro/basketDel.do",
+				type: 'post',
+				dataType: 'json',
+				data: ({
+					cook_num: $("#bean_num").val()
+				}),
+				success: function(data){
+					alert(data.rs);
+					$('#bdelbtn').hide();
+					$('#baddbtn').show();
+					location.reload();
+				}
+		 });
+	});
+	$('#idDel').on('submit',function(){
+		var result = confirm('정말 탈퇴하시겠습니까?');
 
-    if(result) {
-    	return true;
-    }
-    return false;
-});
+	    if(result) {
+	    	return true;
+	    }
+	    return false;
+	});
+
+	
 	
 });
 </script>

@@ -238,7 +238,6 @@ public class AdminController {
 	@RequestMapping(value="/search.do",method=RequestMethod.POST)
 	public void searchAll(HttpServletRequest request,HttpServletResponse response,Model model) throws Exception {
 		response.setContentType("text/html;charset=UTF-8");
-		String title = request.getParameter("tags");
 		
 		String searchValue = request.getParameter("searchValue");
 		List<CookVo> list = adminDao.searchAll(searchValue);

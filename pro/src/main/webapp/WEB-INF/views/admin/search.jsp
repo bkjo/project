@@ -45,9 +45,13 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 
 <style type="text/css">
+body{
+		margin-left: 5px;
+	}
 .text-faded {
 	color: black;
 }
+
 .cook {
 	background-color: #FFFFCC;
 }
@@ -57,14 +61,19 @@
 .mat {
 	background-color: #FFFFFF;
 }
+
 #top {
 	text-align: right;
 }
+
 .cookhr {
 	width: 100px;
 }
-.img-responsive{
-		height: 300px;
+.fcolor{
+		color: #999999;
+	}
+	.img-responsive{
+		height: 250px;
 	}
 </style>
 
@@ -81,7 +90,7 @@
 					<span class="sr-only">Toggle navigation</span> Menu <i
 						class="fa fa-bars"></i>
 				</button>
-				<a class="navbar-brand page-scroll" href="/pro">냉짝</a>
+				<a class="navbar-brand page-scroll" href="/pro"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -91,7 +100,7 @@
 					<li>
 						<%
 							if (session.getAttribute("id") != null) {
-						%> <a class="page-scroll" href="#about">마이페이지</a> <%
+						%> <a class="page-scroll" href="#about">로그아웃</a> <%
  	} else if (session.getAttribute("str") != null) {
  %> <a class="page-scroll" href="#about">회원가입</a>
 						<%
@@ -117,7 +126,7 @@
 			<div class="header-content-inner">
 				<h1 id="homeHeading">요리사이트</h1>
 				<hr>
-				<p>레시피를 부탁해</p>
+				<p>냉장고를 부탁해</p>
 				<a href="#services" class="btn btn-primary btn-xl page-scroll">레시피
 					이동</a>
 			</div>
@@ -132,15 +141,13 @@
 						if (session.getAttribute("id") != null) {
 							String name = (String) session.getAttribute("id");
 					%>
-					<h2 class="section-heading"><%=name%>님 환영합니다
-					</h2>
-					<hr class="light">
-					<a href="/pro/logout.do"
-						class="page-scroll btn btn-default btn-xl sr-button">로그아웃</a>
-						<a class="page-scroll btn btn-default btn-xl sr-button" href="/pro/basketList.do">즐겨찾기목록</a>
-						<form action="/pro/idDel.do/<%= name %>" method="post" id="idDel">
+						<h2 class="section-heading"><%= name %>님 환영합니다</h2>
+                    	<hr class="light">
+                    	<a href="/pro/logout.do" class="page-scroll btn btn-default btn-xl sr-button fcolor">로그아웃</a>
+                    	<a class="page-scroll btn btn-default btn-xl sr-button fcolor" href="/pro/basketList.do">즐겨찾기목록</a>
+                    	<form action="/pro/idDel.do/<%= name %>" method="post" id="idDel">
                     	<input type="hidden" name="_method" value="delete">
-                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button">회원탈퇴</button>
+                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button fcolor">회원탈퇴</button>
                     	</form>
 					<%
 						} else if (session.getAttribute("str") != null) {
@@ -149,27 +156,27 @@
 					<hr class="light">
 					<form id="insertform" action="/pro/insert.do" method="post">
 						<p class="text-faded">
-							<label for="id" class="text-faded">아이디</label> <input type="text"
+							<label for="id" class="text-faded fcolor2">아이디</label> <input type="text"
 								id="id" name="id" class="text-faded" maxlength="8" size="8" /> <input
 								type="hidden" id="hid" name="hid" value="0" />
 
-							<button id="idChk" type="button" class="text-faded">중복확인</button>
+							<button id="idChk" type="button" class="text-faded fcolor2">중복확인</button>
 						</p>
 						<p class="text-faded">
-							<label for="pw" class="text-faded">비밀번호</label> <input
+							<label for="pw" class="text-faded fcolor2">비밀번호</label> <input
 								type="password" id="pw" name="pw" maxlength="8" size="8"
 								class="text-faded" />
 						</p>
 						<p class="text-faded">
-							<label for="pwChk" class="text-faded">비밀번호확인</label>
+							<label for="pwChk" class="text-faded fcolor2">비밀번호확인</label>
 							</td> <input type="password" id="pwChk" name="pwChk" maxlength="8"
 								size="8" class="text-faded" />
 						</p>
 
 						<button type="submit"
-							class="page-scroll btn btn-default btn-xl sr-button">입력</button>
-						<button type="reset"
-							class="page-scroll btn btn-default btn-xl sr-button">취소</button>
+							class="page-scroll btn btn-default btn-xl sr-button fcolor">입력</button>
+						<a href="/pro"
+							class="page-scroll btn btn-default btn-xl sr-button fcolor">취소</a>
 
 					</form>
 					<%
@@ -184,9 +191,9 @@
 								id="adminPw" maxlength="8" size="8" />
 						</p>
 						<button type="submit"
-							class="page-scroll btn btn-default btn-xl sr-button">로그인</button>
+							class="page-scroll btn btn-default btn-xl sr-button fcolor">로그인</button>
 						<a href="/pro/join.do"
-							class="page-scroll btn btn-default btn-xl sr-button">회원가입</a>
+							class="page-scroll btn btn-default btn-xl sr-button fcolor">회원가입</a>
 					</form>
 
 					<%
@@ -233,9 +240,8 @@
 				%>
 				<div class="col-lg-4 col-md-6 text-center">
 					<div class="service-box" id="csearch">
-						<a href="#list"> <i class="fa fa-4x text-primary sr-icons">
-						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-						 Seach</i>
+						<a href="#list"> <i
+							class="fa fa-4x fa-newspaper-o text-primary sr-icons"> seach</i>
 						</a>
 					</div>
 				</div>
@@ -326,17 +332,18 @@
 		<!-- 요리레시피 검색 -->
 		<div class="row" id="cooksearch">
 			<div class="col-xs-12">
-			<div class="alert alert-warning" role="alert"><h3>검색</h3></div>
-			<div>
-				<form action="/pro/searchTitle.do" method="post" class="navbar-form navbar-left" role="search">
-					<div class="form-group">
-					  <input type="text" name="tags" id="tags" class="form-control" placeholder="Search">
-				  		<button class="searchbtn btn btn-default">Submit</button>
-					</div>
-				</form>
-				  </div>
+				<div class="alert alert-warning" role="alert">
+					<h3>등록</h3>
+				</div>
+				<div>
+					<form action="/pro/searchTitle.do" method="post">
+						<label for="tags">Tags: </label> <input type="text" name="tags"
+							id="tags">
+						<button id="searchbtn">clcik</button>
+					</form>
+				</div>
+			</div>
 		</div>
-	 </div>
 		
 		
 		<div class="row" id="cooklist">
@@ -360,7 +367,7 @@
 					<hr/>
 			  </c:forEach>
 			
-			 <p id="top"><a href="#list">top</a></p>
+			 <p id="top"><a href="#">top</a></p>
 			
 		</div>
 		</div>
@@ -432,9 +439,11 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+
 			$('.cookt').hide();
 			$('#cookadd').hide();
 			$('.fold').hide();
+
 			$('#idChk').on('click', function() {
 				$.ajax({
 					url : "idck.do",
@@ -486,6 +495,7 @@
 					alert("정상적으로 가입완료");
 				}
 			});
+
 			$('#cookinsert').on('submit', function() {
 				if ($("#cooktitle").val() == "") {
 					alert("요리제목을 꼭 입력하세요!");
@@ -507,6 +517,7 @@
 					alert("정상적으로 업로드 완료");
 				}
 			});
+
 			$('.more').on('click', function() {
 				$(this).css('display', "none");//more버튼 숨기기
 				var index = $(".more").index(this);
@@ -514,6 +525,7 @@
 				$('.fold').eq(index).show();
 				cookts.show();
 			});
+
 			$('.fold').on('click', function() {
 				$(this).css('display', "none");//more버튼 숨기기
 				var index = $(".fold").index(this);
@@ -521,6 +533,7 @@
 				$('.more').eq(index).show();
 				cookts.hide();
 			});
+
 			$('#cadd').on('click', function() {
 				$('#cooklist').hide();
 				$('#cooksearch').hide();
@@ -563,7 +576,7 @@
 						});
 					},
 					//최소 몇자 이상되면 통신을 시작하겠다라는 옵션
-					minLength : 2,
+					minLength : 1,
 					//자동완성 목록에서 특정 값 선택시 처리하는 동작 구현
 					//구현없으면 단순 text태그내에 값이 들어간다.
 					select : function(event, ui) {
@@ -578,6 +591,7 @@
 			    }
 			    return false;
 			});
+
 		});
 	</script>
 

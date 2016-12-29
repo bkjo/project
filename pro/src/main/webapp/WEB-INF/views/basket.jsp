@@ -32,19 +32,16 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 	<style type="text/css">
-	body{
-		margin-left: 5px;
-	}
 	.text-faded{
 		color: black;
 	}
 	.cook{
 		background-color: #FFFFCC;
 	}
+	/* .add{
+		display: none
+	 }*/
 	.mat{
 		background-color: #FFFFFF;
 	}
@@ -55,15 +52,8 @@
 		width: 100px;
 	}
 	.img-responsive{
-		height: 250px;
+		height: 300px;
 	}
-	.fcolor{
-		color: #999999;
-	}
-	.fcolor2{
-		color: white;
-	}
-	
 	</style>
 	
 </head>
@@ -77,7 +67,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll"  href="/pro"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+                <a class="navbar-brand page-scroll" href="/pro">냉짝</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -87,7 +77,7 @@
                     <% 
                     if(session.getAttribute("id")!=null){
                     %>
-                       <a class="page-scroll" href="#about">로그아웃</a>
+                       <a class="page-scroll" href="#about">마이페이지</a>
                        <% }else if(session.getAttribute("str")!=null){
                         %>
                         <a class="page-scroll" href="#about">회원가입</a>
@@ -118,7 +108,7 @@
             <div class="header-content-inner">
                 <h1 id="homeHeading">요리사이트</h1>
                 <hr>
-                <p>냉장고를 부탁해</p>
+                <p>레시피를 부탁해</p>
                 <a href="#services" class="btn btn-primary btn-xl page-scroll">레시피 이동</a>
             </div>
         </div>
@@ -131,35 +121,35 @@
                 	<% if(session.getAttribute("id")!=null){ 
                 		String name = (String)session.getAttribute("id");
                		%>
-                       		<h2 class="section-heading"><%= name %>님 환영합니다</h2>
+                       	<h2 class="section-heading"><%= name %>님 환영합니다</h2>
                     	<hr class="light">
-                    	<a href="/pro/logout.do" class="page-scroll btn btn-default btn-xl sr-button fcolor">로그아웃</a>
-                    	<a class="page-scroll btn btn-default btn-xl sr-button fcolor" href="/pro/basketList.do">즐겨찾기목록</a>
+                    	<a href="/pro/logout.do" class="page-scroll btn btn-default btn-xl sr-button">로그아웃</a>
+                    	<a class="page-scroll btn btn-default btn-xl sr-button" href="/pro/basketList.do">즐겨찾기목록</a>
                     	<form action="/pro/idDel.do/<%= name %>" method="post" id="idDel">
                     	<input type="hidden" name="_method" value="delete">
-                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button fcolor">회원탈퇴</button>
+                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button">회원탈퇴</button>
                     	</form>
-                    <%
+                   <%
                 	}else if(session.getAttribute("str")!=null){
                 	%>
                 		<h2 class="section-heading">회원가입</h2>
                         <hr class="light">
                         <form id="insertform" action="/pro/insert.do" method="post">
-			<p class="text-faded"><label for="id" class="text-faded fcolor2" >아이디</label>
+			<p class="text-faded"><label for="id" class="text-faded">아이디</label>
 			<input type="text" id="id" name="id" class="text-faded" maxlength="8" size="8"/>
 				<input type="hidden" id="hid" name="hid" value="0"/>
 			
 			<button id="idChk" type="button" class="text-faded">중복확인</button></p>
 		<p class="text-faded">
-			<label for="pw" class="text-faded fcolor2">비밀번호</label>
+			<label for="pw" class="text-faded">비밀번호</label>
 			<input type="password" id="pw" name="pw" maxlength="8" size="8" class="text-faded"/>
 			</p>
 		<p class="text-faded">
-			<label for="pwChk" class="text-faded fcolor2">비밀번호확인</label></td>
+			<label for="pwChk" class="text-faded">비밀번호확인</label></td>
 			<input type="password" id="pwChk" name="pwChk" maxlength="8" size="8" class="text-faded"/></p>
 		
-        <button type="submit" class="page-scroll btn btn-default btn-xl sr-button fcolor">입력</button>
-        <a href="/pro" class="page-scroll btn btn-default btn-xl sr-button fcolor">취소</a>
+        <button type="submit" class="page-scroll btn btn-default btn-xl sr-button">입력</button>
+        <button type="reset" class="page-scroll btn btn-default btn-xl sr-button">취소</button>
                      
                        </form>
                 	<%
@@ -172,8 +162,8 @@
 	                    id <input type="text" name="adminId" id="adminId" maxlength="8" size="8"/>&nbsp;
 	                    pw <input type="password" name="adminPw" id="adminPw" maxlength="8" size="8" />
 	                    </p>
-                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button fcolor">로그인</button>
-                    	<a href="/pro/join.do" class="page-scroll btn btn-default btn-xl sr-button fcolor">회원가입</a>
+                    	<button type="submit" class="page-scroll btn btn-default btn-xl sr-button">로그인</button>
+                    	<a href="/pro/join.do" class="page-scroll btn btn-default btn-xl sr-button">회원가입</a>
                     </form>
                     
                		<% } %>
@@ -198,7 +188,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box">
-                        <a href="#list" id="clist">
+                        <a href="/pro/cooklist.do" id="clist">
                         <i class="fa fa-4x fa-diamond text-primary sr-icons">List</i>
                         </a>
                     </div>
@@ -217,8 +207,9 @@
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box" id="csearch">
                         <a href="#list">
-                        <i class="fa fa-4x fa-newspaper-o text-primary sr-icons">
-                        seach</i>
+                        <i class="fa fa-4x text-primary sr-icons">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        Seach</i>
                         </a>
                     </div>
                 </div>
@@ -256,14 +247,14 @@
 
 
     <section id="list">
-	<!-- 요리레시피 리스트 -->
-		<div class="row" id="cooklist">
+	<!-- 즐겨찾레시피 리스트 -->
+		<div class="row" id="basketlist">
 			<div class="col-xs-12">
-			<div class="alert alert-warning" role="alert"><h3>리스트</h3></div>
-				<c:forEach items="${alist }" var="bean">
+			<div class="alert alert-warning" role="alert"><h3>즐겨찾기</h3></div>
+				<c:forEach items="${blist }" var="bean">
 					<div class="media">
 						<div class="media-left media-top">
-						  <a href="/pro/cookOne.do/${bean.cook_num}"><img class="media-object" src="${bean.path }" width="128px" height="86px" alt="${bean.title }"></a>
+						  <a href="/pro/cookOne.do/${bean.cook_num}"><img class="media-object" src="${bean.path }" width="128px" height="96px" alt="${bean.title }"></a>
 						</div>
 						<div class="media-body">
 						  <h3 class="media-heading">${bean.title }</h3>
@@ -278,31 +269,11 @@
 					<hr/>
 			  </c:forEach>
 			 
-			 
-			<!--   <nav aria-label="Page navigation">
-			  <ul class="pagination">
-			    <li>
-			      <a href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li><a href="#">1</a></li>
-			    <li><a href="#">2</a></li>
-			    <li><a href="#">3</a></li>
-			    <li><a href="#">4</a></li>
-			    <li><a href="#">5</a></li>
-			    <li>
-			      <a href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			  </ul>
-			</nav> -->
-			
-			 <p id="top"><a href="#">top</a></p>
+			 <p id="top"><a href="#list">top</a></p>
 			
 		</div>
 		</div>
+	
 		
 		
 		<!-- 요리레시피 등록 -->
@@ -346,56 +317,24 @@
 			</div>
 		</div>
 		
-		
-		
 		<!-- 요리레시피 검색 -->
 		<div class="row" id="cooksearch">
 			<div class="col-xs-12">
-			<div class="alert alert-warning" role="alert"><h3>등록</h3></div>
+			<div class="alert alert-warning" role="alert"><h3>검색</h3></div>
 			<div>
-				<form action="/pro/searchTitle.do" method="post">
-				  <label for="tags">Tags: </label>
-				  <input type="text" name="tags" id="tags">
-				  <button id="searchbtn">clcik</button>
+				<form action="/pro/searchTitle.do" method="post" class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+					  <input type="text" name="tags" id="tags" class="form-control" placeholder="Search">
+				  		<button class="searchbtn btn btn-default">Submit</button>
+					</div>
 				</form>
 				  </div>
 		</div>
 	 </div>
 		
-<%-- 		<!-- 요리레시피 상세보기 -->
-		<div class="row cookdetail">
-			<div class="col-xs-12">
-				<div class="page-header">
-				  <h1>상세페이지 <small>${bean.cook_num }님의 정보</small></h1>
-				</div>
-			</div>
-		</div>
-		<div class="row cookdetail">
-			<div class="col-xs-12">
-			<table class="table">
-			<tr>
-				<td>사번</td>
-				<td>${bean.title }</td>
-			</tr>
-			<tr>
-				<td>이름</td>
-				<td>${bean.mat }</td>
-			</tr>
-			<tr>
-				<td>날짜</td>
-				<td>${bean.text }</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button type="button" class="btn btn-primary btnEdit">수정</button>
-					<a class="btn btn-danger btnDel" href="#" role="button">삭제</a>
-				</td>
-			</tr>
-			</table>
-			</div>
-		</div>
-		--%>
+		
     </section> 
+
 
     
 
@@ -425,6 +364,7 @@
                 </div>
             </div>
         </div>
+        
     </section>
 
     <!-- jQuery -->
@@ -440,14 +380,9 @@
 
     <!-- Theme JavaScript -->
     <script src="/pro/resources/js/creative.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
 	<script type="text/javascript">
 $(document).ready(function(){
-	
 	$('.cookt').hide();
 	$('#cookadd').hide();
 	$('.fold').hide();
@@ -528,6 +463,47 @@ $(document).ready(function(){
 			alert("정상적으로 업로드 완료");
 		}
 	});
+
+	$(function(){
+		$( "#tags" ).autocomplete({
+			source : function( request, response ) {
+				//많이 봤죠? jquery Ajax로 비동기 통신한 후
+				//json객체를 서버에서 내려받아서 리스트 뽑는 작업
+		        $.ajax({
+		        	//호출할 URL
+		            url: "search.do",
+		            //우선 jsontype json으로
+		            type: "post",
+		            dataType: "json",
+		            // parameter 값이다. 여러개를 줄수도 있다.
+		            data: {
+		              //request.term >> 이거 자체가 text박스내에 입력된 값이다.
+		              searchValue: request.term
+		            },
+		            success: function( result ) {
+		            	//return 된놈을 response() 함수내에 다음과 같이 정의해서 뽑아온다.
+		                response( 
+		                	$.map( result, function( item ) {
+		                			return {
+		                			//label : 화면에 보여지는 텍스트
+		                			//value : 실제 text태그에 들어갈 값
+		                			//본인은 둘다 똑같이 줬음
+		                			//화면에 보여지는 text가 즉, value가 되기때문 
+		                  				label: item.data,
+		                  				value: item.data
+		                			}
+		              		})
+		              	);
+		            }
+		          });
+		    },
+		        //최소 몇자 이상되면 통신을 시작하겠다라는 옵션
+			minLength: 2,
+			//자동완성 목록에서 특정 값 선택시 처리하는 동작 구현
+			//구현없으면 단순 text태그내에 값이 들어간다.
+			select: function( event, ui ) {}
+		});
+	})
 	
 	$('.more').on('click',function(){
 			 $(this).css('display',"none");//more버튼 숨기기
@@ -545,71 +521,30 @@ $(document).ready(function(){
 		 cookts.hide();
 	});
 	
-	$('#clist').on('click',function(){
-		$('#cookadd').hide();
-		$('#cooklist').show();
-		$('#cooksearch').hide();
-	});
 	$('#cadd').on('click',function(){
-		$('#cooklist').hide();
-		$('#cooksearch').hide();
+		$('#basketlist').hide();
 		$('#cookadd').show();
+		$('#cooksearch').hide();
 	});
 	$('#csearch').on('click',function(){
-		$('#cooklist').hide();
+		$('#basketlist').hide();
 		$('#cooksearch').show();
 		$('#cookadd').hide();
 	});
-$(function(){
-	$( "#tags" ).autocomplete({
-		source : function( request, response ) {
-			//많이 봤죠? jquery Ajax로 비동기 통신한 후
-			//json객체를 서버에서 내려받아서 리스트 뽑는 작업
-	        $.ajax({
-	        	//호출할 URL
-	            url: "search.do",
-	            //우선 jsontype json으로
-	            type: "post",
-	            dataType: "json",
-	            // parameter 값이다. 여러개를 줄수도 있다.
-	            data: {
-	              //request.term >> 이거 자체가 text박스내에 입력된 값이다.
-	              searchValue: request.term
-	            },
-	            success: function( result ) {
-	            	//return 된놈을 response() 함수내에 다음과 같이 정의해서 뽑아온다.
-	                response( 
-	                	$.map( result, function( item ) {
-	                			return {
-	                			//label : 화면에 보여지는 텍스트
-	                			//value : 실제 text태그에 들어갈 값
-	                			//본인은 둘다 똑같이 줬음
-	                			//화면에 보여지는 text가 즉, value가 되기때문 
-	                  				label: item.data,
-	                  				value: item.data
-	                			}
-	              		})
-	              	);
-	            }
-	          });
-	    },
-	        //최소 몇자 이상되면 통신을 시작하겠다라는 옵션
-		minLength: 1,
-		//자동완성 목록에서 특정 값 선택시 처리하는 동작 구현
-		//구현없으면 단순 text태그내에 값이 들어간다.
-		select: function( event, ui ) {}
-	});
-})
-$('#idDel').on('submit',function(){
-	var result = confirm('정말 탈퇴하시겠습니까?');
+	$('#idDel').on('submit',function(){
+		var result = confirm('정말 탈퇴하시겠습니까?');
 
-    if(result) {
-    	return true;
-    }
-    return false;
-});
+	    if(result) {
+	    	return true;
+	    }
+	    return false;
+	});
 	
 });
+	
+
+	
+
 </script>
 
 </body>
