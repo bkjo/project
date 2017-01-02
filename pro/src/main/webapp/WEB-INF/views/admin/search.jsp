@@ -126,7 +126,7 @@ body{
 			<div class="header-content-inner">
 				<h1 id="homeHeading">요리사이트</h1>
 				<hr>
-				<p>냉장고를 부탁해</p>
+				<p>레시피를 부탁해</p>
 				<a href="#services" class="btn btn-primary btn-xl page-scroll">레시피
 					이동</a>
 			</div>
@@ -241,7 +241,7 @@ body{
 				<div class="col-lg-4 col-md-6 text-center">
 					<div class="service-box" id="csearch">
 						<a href="#list"> <i
-							class="fa fa-4x fa-newspaper-o text-primary sr-icons"> seach</i>
+							class="fa fa-4x fa-newspaper-o text-primary sr-icons"> Search</i>
 						</a>
 					</div>
 				</div>
@@ -333,7 +333,7 @@ body{
 		<div class="row" id="cooksearch">
 			<div class="col-xs-12">
 				<div class="alert alert-warning" role="alert">
-					<h3>등록</h3>
+					<h3>검색</h3>
 				</div>
 				<div>
 					<form action="/pro/searchTitle.do" method="post">
